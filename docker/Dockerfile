@@ -1,4 +1,8 @@
 FROM nginx:latest
 
-RUN apt update
-RUN apt install vim -y
+WORKDIR /app
+
+RUN apt update \
+  && apt install vim -y
+
+COPY html /usr/share/nginx/html
