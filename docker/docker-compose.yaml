@@ -2,12 +2,18 @@ version: "3"
 
 services:
   nestjs:
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.prod
     image: santosrj/nestjs:prod
     container_name: nestjs
     networks:
       - nestnet
 
   nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
     image: santosrj/nginx:prod
     container_name: nginx
     networks:
