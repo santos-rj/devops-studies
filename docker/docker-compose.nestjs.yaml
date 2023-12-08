@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  nestjs:
+    build:
+      context: ./nestjs
+      dockerfile: Dockerfile.prod
+    image: santosrj/nestjs:prod
+    container_name: nestjs
+    networks:
+      - nestnet
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
+    image: santosrj/nginx:prod
+    container_name: nginx
+    networks:
+      - nestnet
+    ports:
+      - 8080:80
+    depends_on:
+      - nestjs
+
+networks:
+  nestnet:
+    driver: bridge
