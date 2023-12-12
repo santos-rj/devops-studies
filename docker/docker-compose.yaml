@@ -1,28 +1,20 @@
 version: "3"
 
 services:
-  nestjs:
-    build:
-      context: ./nestjs
-      dockerfile: Dockerfile.prod
-    image: santosrj/nestjs:prod
-    container_name: nestjs
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: nodedb
+      MYSQL_ROOT_PASSWORD: root
     networks:
-      - nestnet
-
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.prod
-    image: santosrj/nginx:prod
-    container_name: nginx
-    networks:
-      - nestnet
-    ports:
-      - 8080:80
-    depends_on:
-      - nestjs
+      - node-network
 
 networks:
-  nestnet:
+  node-network:
     driver: bridge
